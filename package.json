@@ -48,6 +48,8 @@
     "**/*.{css,scss,sass,ts,tsx,js,jsx,json,yml,yaml,md,html,json5}": "prettier --write"
   },
   "volta": {
-    "node": "22.14.0"
-  }
+    "node": "22.14.0",
+    "yarn": "4.6.0"
+  },
+  "packageManager": "yarn@4.6.0"
 }
