@@ -1,196 +1,97 @@
-# React + TypeScript + Vite
+# reactで掲示板アプリを作る
 
-このテンプレートは、ViteでReactを使用するための最小限のセットアップを提供し、HMRといくつかのESLintルールが含まれています。
+## 🎯 環境セットアップ概要
 
-現在、2つの公式プラグインが利用可能です：
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) - Fast Refreshのために[Babel](https://babeljs.io/)を使用
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) - Fast RefreshのためにSWCを使用
-
-## ESLint設定の拡張
-
-本番用アプリケーションを開発する場合、型を考慮したリントルールを有効にすることをお勧めします：
-
-```js
-export default tseslint.config({
-  extends: [
-    // ...tseslint.configs.recommendedを削除し、以下に置き換え
-    ...tseslint.configs.recommendedTypeChecked,
-    // より厳密なルールを使用する場合は以下を使用
-    ...tseslint.configs.strictTypeChecked,
-    // オプションで、スタイルに関するルールを追加
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // その他のオプション...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-また、React固有のリントルールのために[eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x)と[eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom)をインストールすることもできます：
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // react-xとreact-domプラグインを追加
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // その他のルール...
-    // 推奨TypeScriptルールを有効化
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
-
-# 🚀 開発環境セットアップ
-
-## 🎯 セットアップ概要
-- **パッケージマネージャー:** Yarn
-- **開発環境:** Vite, React 19, TypeScript
-- **コード品質:** ESLint, Prettier, Husky, lint-staged
+- **パッケージマネージャー:** Yarn 4.6.0
+- **Node.js:** v22.14.0 (Volta管理)
+- **開発環境:** Vite 6.2.0, React 19, TypeScript 5.7
+- **コード品質:** ESLint 9.21.0, Prettier 3.5.2, Husky 9.1.7, lint-staged 15.4.3
+- **スタイル:** TailwindCSS
+- **コミット規則:** Commitizen, Conventional Commits
+- **パッケージバージョン管理:** Volta
 - **CI/CD:** GitHub Actions, Vercel
-- **スタイル:** TailwindCSS 4
-- **コミット規則:** Conventional Commits
-- **自動ドキュメント:** `typedoc`
 
 ---
 
-## 🛠 1. Vite + React 19 + TypeScript プロジェクト作成
+## 🛠 環境構築手順
+
+### 1. プロジェクト初期化
+
 ```sh
 yarn create vite . --template react-ts
 git init
 ```
 
----
+### 2. Voltaによるバージョン管理設定
 
-## 📦 2. 必要なパッケージをインストール
-```sh
-yarn add react@latest react-dom@latest
-yarn add -D typescript vite @vitejs/plugin-react eslint prettier \
-  eslint-config-prettier eslint-plugin-react eslint-plugin-react-hooks \
-  eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-unused-imports \
-  eslint-plugin-simple-import-sort
-```
-
----
-
-## 🎨 3. TailwindCSS 4 のセットアップ
-```sh
-yarn add -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-```
-
-### `tailwind.config.js`
-```js
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-```
-
-### `src/index.css`
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
----
-
-## 📝 4. ESLint & Prettier のセットアップ
-
-### `.eslintrc.cjs`
-```js
-module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-  ],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-  },
-  plugins: ["react", "@typescript-eslint", "unused-imports", "simple-import-sort"],
-  rules: {
-    "unused-imports/no-unused-imports": "error",
-    "simple-import-sort/imports": "error",
-  },
-};
-```
-
-### `.prettierrc`
 ```json
 {
-  "semi": false,
-  "singleQuote": true,
-  "trailingComma": "all"
-}
-```
-
-```sh
-yarn add -D eslint prettier eslint-plugin-prettier eslint-config-prettier
-```
-
----
-
-## 🎭 5. Husky & lint-staged のセットアップ
-```sh
-yarn add -D husky lint-staged
-npx husky-init && yarn
-```
-
-### `.husky/pre-commit`
-```sh
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-yarn lint-staged
-```
-
-### `package.json` に `lint-staged` を追加
-```json
-{
-  "lint-staged": {
-    "**/*.{ts,tsx,js,jsx}": "eslint --fix"
+  "volta": {
+    "node": "22.14.0",
+    "yarn": "4.6.0"
   }
 }
 ```
 
----
+### 3. 依存パッケージのインストール
 
-## 📝 6. Conventional Commits & Commitlint
 ```sh
-yarn add -D @commitlint/config-conventional @commitlint/cli
-echo "module.exports = {extends: ['@commitlint/config-conventional']};" > commitlint.config.js
-npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
+# React & TypeScript
+yarn add react@latest react-dom@latest
+yarn add -D typescript@latest @types/react@latest @types/react-dom@latest
+
+# Vite & ESLint
+yarn add -D vite @vitejs/plugin-react eslint prettier \
+  eslint-config-prettier eslint-plugin-react eslint-plugin-react-hooks \
+  eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-unused-imports \
+  eslint-plugin-simple-import-sort
+
+# TailwindCSS
+yarn add -D tailwindcss postcss autoprefixer
+yarn tailwindcss init -p
 ```
 
----
+### 4. コミット関連の設定
 
-## 🚀 7. GitHub Actions & Vercel デプロイ
+```sh
+# Commitizen & Conventional Commits
+yarn add -D commitizen cz-customizable
+yarn add -D @commitlint/cli @commitlint/config-conventional
 
-### `.github/workflows/deploy.yml`
+# Husky & lint-staged
+yarn add -D husky lint-staged
+yarn husky install
+```
+
+### 5. lint-staged設定
+
+```json
+{
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx,cjs}": "eslint --fix",
+    "**/*.{css,scss,sass,ts,tsx,js,jsx,json,yml,yaml,md,html,json5}": "prettier --write"
+  }
+}
+```
+
+### 6. スクリプト設定
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "prepare": "husky install"
+  }
+}
+```
+
+### 7. GitHub Actions & Vercel デプロイ
+
+#### `.github/workflows/deploy.yml`
+
 ```yaml
 name: Deploy
 
@@ -206,49 +107,70 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
-          cache: 'yarn'
+          node-version: 22.14.0
+          cache: "yarn"
       - run: yarn install
       - run: yarn build
-      - run: yarn test
 ```
 
-**Vercel の設定**
-```sh
-yarn global add vercel
-vercel
-```
+#### **Vercel の設定**
+
+- `main` ブランチが更新されると、自動で Vercel にデプロイされる
+- デプロイされたアプリは以下のドメインで確認可能:
+  **[https://react-bbs.vercel.app/](https://react-bbs.vercel.app/)**
+
+## 🚀 コミットの流れ（Conventional Commits & Commitizen）
+
+本プロジェクトでは **Commitizen** を使用し、**Conventional Commits** に準拠したコミットメッセージを作成します。
 
 ---
 
-## 📚 8. 自動ドキュメント生成（TypeDoc）
-```sh
-yarn add -D typedoc
-```
+### ✅ **コミットの流れ**
 
-### `typedoc.json`
-```json
-{
-  "entryPoints": ["src/index.tsx"],
-  "out": "docs"
-}
-```
+#### 1. 変更をステージング
 
 ```sh
-yarn typedoc
+git add .
 ```
 
----
+#### 2. コミットメッセージを作成（Commitizenを使用）
 
-## ✅ 最終確認
-✅ Vite + React 19 + TypeScript の動作確認  
-✅ TailwindCSS の適用確認  
-✅ ESLint, Prettier の動作確認  
-✅ Husky & lint-staged の動作確認  
-✅ Conventional Commits の適用確認  
-✅ GitHub Actions での CI/CD 確認  
-✅ Vercel へのデプロイ確認  
-✅ TypeDoc による自動ドキュメント生成  
+```sh
+git commit
+```
 
----
+※ vimに入らないようにすると良い
 
+```sh
+git commit --no-edit
+```
+
+### 3. コミットメッセージの選択
+
+```sh
+? コミットの種類（型）を選択してください:
+  docs:     📝 ドキュメンテーションの追加/更新
+```
+
+### 4. コミットメッセージの入力
+
+```sh
+? コミットメッセージを入力してください:
+  readmeの更新
+? 変更内容の詳細があれば書いてください:（enterでスキップ）
+```
+
+**生成されるコミットメッセージの例：**
+
+```sh
+###--------------------------------------------------------###
+docs: readmeの更新
+###--------------------------------------------------------###
+```
+
+### 5. コミットを確定
+
+```sh
+? 上記のコミットを続行してもよろしいですか?(Y/n)
+  Yes
+```
