@@ -8,6 +8,9 @@ function App() {
 
   return (
     <>
+      <p className="mt-10 text-[30px] text-red-500 bg-blue-100 underline underline-offset-4">
+        Hello tailwind4!
+      </p>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
