@@ -15,6 +15,8 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@eslint/js": "^9.21.0",
     "@tailwindcss/postcss": "^4.0.9",
     "@types/react": "^19.0.10",
@@ -42,7 +44,7 @@
     "vite": "^6.2.0"
   },
   "lint-staged": {
-    "**/*.{ts,tsx,js,jsx}": "eslint --fix",
-    "**/*.{css,scss,sass,ts,tsx,js,jsx,json}": "prettier --write"
+    "**/*.{ts,tsx,js,jsx,cjs}": "eslint --fix",
+    "**/*.{css,scss,sass,ts,tsx,js,jsx,json,yml,yaml,md,html,json5}": "prettier --write"
   }
 }
