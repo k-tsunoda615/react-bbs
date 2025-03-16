@@ -129,26 +129,26 @@ export const ThreadsListPage: FC = () => {
 
                         {/* 2行目: タグ */}
                         <div className="flex flex-wrap items-center gap-2 mb-2">
-                          <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                          <button className="border border-primary/10 text-primary text-xs px-2 py-1 rounded hover:bg-primary/10 transition-colors inline-flex items-center hover:text-primary">
                             プログラミング
-                          </span>
-                          <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
+                          </button>
+                          <button className="border border-primary/10 text-primary text-xs px-2 py-1 rounded hover:bg-primary/10 transition-colors inline-flex items-center hover:text-primary">
                             React
-                          </span>
+                          </button>
                         </div>
 
                         {/* 3行目: 日付、投稿数、いいね数 */}
                         <div className="flex items-center justify-between flex-wrap text-xs sm:text-sm text-muted-foreground">
                           <time>2024年3月20日</time>
                           <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-1">
-                              <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4" />
+                            <button className="flex items-center gap-1 hover:text-primary hover:scale-105 transition-all group">
+                              <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4 group-hover:fill-yellow-300" />
                               <span>12件</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Heart className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </button>
+                            <button className="flex items-center gap-1 hover:text-primary hover:scale-105 transition-all group">
+                              <Heart className="h-3 w-3 sm:h-4 sm:w-4 group-hover:fill-red-500" />
                               <span>123</span>
-                            </div>
+                            </button>
                           </div>
                         </div>
                       </div>
