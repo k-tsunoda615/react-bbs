@@ -1,7 +1,8 @@
 import { FC, useState } from "react";
 import { useFetchThreads } from "./hooks/useFetchThreads";
 import { Link } from "react-router-dom";
-import { MessageSquare, Heart, ArrowUpDown } from "lucide-react";
+import { MessageSquare, Heart, ArrowUpDown, Plus } from "lucide-react";
+import { Button } from "../../components/ui/button";
 import {
   Card,
   CardContent,
@@ -41,10 +42,14 @@ export const ThreadsListPage: FC = () => {
   return (
     <div className="flex justify-center m-4">
       <div className="w-full max-w-[800px] mx-auto px-4">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold mt-8">
-            スレッド一覧
-          </CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between p-0 mb-8">
+          <CardTitle className="text-2xl font-bold">スレッド一覧</CardTitle>
+          <Link to="/threads/create">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-2 font-bold">
+              <Plus className="h-4 w-4" />
+              新規スレッド作成
+            </Button>
+          </Link>
         </CardHeader>
         <CardContent className="p-0 mt-8">
           {isLoading && (
