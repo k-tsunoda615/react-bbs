@@ -10,6 +10,16 @@ import {
 } from "../../components/ui/card";
 import { Alert, AlertDescription } from "../../components/ui/alert";
 import { Skeleton } from "../../components/ui/skeleton";
+import { Input } from "../../components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
+import { Badge } from "../../components/ui/badge";
+import { ArrowUpDown } from "lucide-react";
 
 export const ThreadsListPage: FC = () => {
   const { threads, isLoading, error } = useFetchThreads();
@@ -18,7 +28,7 @@ export const ThreadsListPage: FC = () => {
     <div className="flex justify-center m-4">
       <div className="w-full max-w-[800px] mx-auto px-4">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold mt-8">
+          <CardTitle className="text-3xl font-bold mt-8">
             スレッド一覧
           </CardTitle>
         </CardHeader>
@@ -57,6 +67,65 @@ export const ThreadsListPage: FC = () => {
             </Alert>
           )}
 
+          {/* 検索UIの実装 */}
+          <div className="space-y-4 mb-8">
+            {/* 検索とカテゴリー選択 */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Input placeholder="スレッドを検索..." className="flex-1" />
+              <div className="flex gap-2">
+                <Select defaultValue="all">
+                  <SelectTrigger className="w-full sm:w-[150px]">
+                    <SelectValue placeholder="カテゴリー" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">すべて</SelectItem>
+                    <SelectItem value="programming">プログラミング</SelectItem>
+                    <SelectItem value="design">デザイン</SelectItem>
+                    <SelectItem value="other">その他</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select defaultValue="newest">
+                  <SelectTrigger className="w-full sm:w-[150px]">
+                    <div className="flex items-center gap-2">
+                      <ArrowUpDown className="h-3 w-3" />
+                      <SelectValue placeholder="並び替え" />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">新着順</SelectItem>
+                    <SelectItem value="oldest">古い順</SelectItem>
+                    <SelectItem value="likes">いいね数順</SelectItem>
+                    <SelectItem value="comments">コメント数順</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* タグフィルター */}
+            <div className="flex gap-2 flex-wrap">
+              <Badge
+                variant="secondary"
+                className="cursor-pointer hover:bg-secondary/80"
+              >
+                プログラミング
+              </Badge>
+              <Badge
+                variant="secondary"
+                className="cursor-pointer hover:bg-secondary/80"
+              >
+                React
+              </Badge>
+              <Badge
+                variant="secondary"
+                className="cursor-pointer hover:bg-secondary/80"
+              >
+                TypeScript
+              </Badge>
+            </div>
+          </div>
+
+          {/* スレッド一覧の実装 */}
           <ul className="space-y-4">
             {threads.map((thread) => (
               <li key={thread.id}>
@@ -81,26 +150,26 @@ export const ThreadsListPage: FC = () => {
 
                         {/* 2行目: タグ */}
                         <div className="flex flex-wrap items-center gap-2 mb-2">
-                          <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                            プログラミング
-                          </span>
-                          <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded">
-                            React
-                          </span>
+                          <button className="border border-primary/10 text-primary text-xs px-2 py-1 rounded hover:border-primary/50 transition-colors inline-flex items-center hover:text-primary">
+                            #プログラミング
+                          </button>
+                          <button className="border border-primary/10 text-primary text-xs px-2 py-1 rounded hover:border-primary/50 transition-colors inline-flex items-center hover:text-primary">
+                            #React
+                          </button>
                         </div>
 
                         {/* 3行目: 日付、投稿数、いいね数 */}
                         <div className="flex items-center justify-between flex-wrap text-xs sm:text-sm text-muted-foreground">
                           <time>2024年3月20日</time>
                           <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-1">
-                              <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4" />
+                            <button className="flex items-center gap-1 hover:text-primary hover:scale-105 transition-all group">
+                              <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4 group-hover:fill-yellow-300" />
                               <span>12件</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Heart className="h-3 w-3 sm:h-4 sm:w-4" />
+                            </button>
+                            <button className="flex items-center gap-1 hover:text-primary hover:scale-105 transition-all group">
+                              <Heart className="h-3 w-3 sm:h-4 sm:w-4 group-hover:fill-red-500" />
                               <span>123</span>
-                            </div>
+                            </button>
                           </div>
                         </div>
                       </div>
