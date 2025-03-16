@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { Badge } from "../../components/ui/badge";
+import { ArrowUpDown } from "lucide-react";
 
 export const ThreadsListPage: FC = () => {
   const { threads, isLoading, error } = useFetchThreads();
@@ -68,20 +69,40 @@ export const ThreadsListPage: FC = () => {
 
           {/* 検索UIの実装 */}
           <div className="space-y-4 mb-8">
-            <div className="flex gap-4">
+            {/* 検索とカテゴリー選択 */}
+            <div className="flex flex-col sm:flex-row gap-4">
               <Input placeholder="スレッドを検索..." className="flex-1" />
-              <Select defaultValue="all">
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="カテゴリー" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">すべて</SelectItem>
-                  <SelectItem value="programming">プログラミング</SelectItem>
-                  <SelectItem value="design">デザイン</SelectItem>
-                  <SelectItem value="other">その他</SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex gap-2">
+                <Select defaultValue="all">
+                  <SelectTrigger className="w-full sm:w-[150px]">
+                    <SelectValue placeholder="カテゴリー" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">すべて</SelectItem>
+                    <SelectItem value="programming">プログラミング</SelectItem>
+                    <SelectItem value="design">デザイン</SelectItem>
+                    <SelectItem value="other">その他</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                <Select defaultValue="newest">
+                  <SelectTrigger className="w-full sm:w-[150px]">
+                    <div className="flex items-center gap-2">
+                      <ArrowUpDown className="h-3 w-3" />
+                      <SelectValue placeholder="並び替え" />
+                    </div>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="newest">新着順</SelectItem>
+                    <SelectItem value="oldest">古い順</SelectItem>
+                    <SelectItem value="likes">いいね数順</SelectItem>
+                    <SelectItem value="comments">コメント数順</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
+
+            {/* タグフィルター */}
             <div className="flex gap-2 flex-wrap">
               <Badge
                 variant="secondary"
@@ -129,11 +150,11 @@ export const ThreadsListPage: FC = () => {
 
                         {/* 2行目: タグ */}
                         <div className="flex flex-wrap items-center gap-2 mb-2">
-                          <button className="border border-primary/10 text-primary text-xs px-2 py-1 rounded hover:bg-primary/10 transition-colors inline-flex items-center hover:text-primary">
-                            プログラミング
+                          <button className="border border-primary/10 text-primary text-xs px-2 py-1 rounded hover:border-primary/50 transition-colors inline-flex items-center hover:text-primary">
+                            #プログラミング
                           </button>
-                          <button className="border border-primary/10 text-primary text-xs px-2 py-1 rounded hover:bg-primary/10 transition-colors inline-flex items-center hover:text-primary">
-                            React
+                          <button className="border border-primary/10 text-primary text-xs px-2 py-1 rounded hover:border-primary/50 transition-colors inline-flex items-center hover:text-primary">
+                            #React
                           </button>
                         </div>
 
