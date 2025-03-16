@@ -10,6 +10,15 @@ import {
 } from "../../components/ui/card";
 import { Alert, AlertDescription } from "../../components/ui/alert";
 import { Skeleton } from "../../components/ui/skeleton";
+import { Input } from "../../components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
+import { Badge } from "../../components/ui/badge";
 
 export const ThreadsListPage: FC = () => {
   const { threads, isLoading, error } = useFetchThreads();
@@ -18,7 +27,7 @@ export const ThreadsListPage: FC = () => {
     <div className="flex justify-center m-4">
       <div className="w-full max-w-[800px] mx-auto px-4">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold mt-8">
+          <CardTitle className="text-3xl font-bold mt-8">
             スレッド一覧
           </CardTitle>
         </CardHeader>
@@ -57,6 +66,45 @@ export const ThreadsListPage: FC = () => {
             </Alert>
           )}
 
+          {/* 検索UIの実装 */}
+          <div className="space-y-4 mb-8">
+            <div className="flex gap-4">
+              <Input placeholder="スレッドを検索..." className="flex-1" />
+              <Select defaultValue="all">
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="カテゴリー" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">すべて</SelectItem>
+                  <SelectItem value="programming">プログラミング</SelectItem>
+                  <SelectItem value="design">デザイン</SelectItem>
+                  <SelectItem value="other">その他</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              <Badge
+                variant="secondary"
+                className="cursor-pointer hover:bg-secondary/80"
+              >
+                プログラミング
+              </Badge>
+              <Badge
+                variant="secondary"
+                className="cursor-pointer hover:bg-secondary/80"
+              >
+                React
+              </Badge>
+              <Badge
+                variant="secondary"
+                className="cursor-pointer hover:bg-secondary/80"
+              >
+                TypeScript
+              </Badge>
+            </div>
+          </div>
+
+          {/* スレッド一覧の実装 */}
           <ul className="space-y-4">
             {threads.map((thread) => (
               <li key={thread.id}>
