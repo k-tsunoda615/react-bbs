@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useFetchThreads } from "./hooks/useFetchThreads";
 import { Link } from "react-router-dom";
-import { MessageSquare, Heart } from "lucide-react";
+import { MessageSquare, Heart, ArrowUpDown } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -19,10 +19,24 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { Badge } from "../../components/ui/badge";
-import { ArrowUpDown } from "lucide-react";
+import { ThreadsPagination } from "./components/ThreadsPagenation";
 
 export const ThreadsListPage: FC = () => {
   const { threads, isLoading, error } = useFetchThreads();
+  const [currentPage, setCurrentPage] = useState(1);
+  const threadsPerPage = 5; // 1ページあたりのスレッド数
+
+  // ページネーション計算
+  const totalPages = Math.ceil(threads.length / threadsPerPage);
+  const indexOfLastThread = currentPage * threadsPerPage;
+  const indexOfFirstThread = indexOfLastThread - threadsPerPage;
+  const currentThreads = threads.slice(indexOfFirstThread, indexOfLastThread);
+
+  // ページ変更ハンドラー
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="flex justify-center m-4">
@@ -35,20 +49,6 @@ export const ThreadsListPage: FC = () => {
         <CardContent className="p-0 mt-8">
           {isLoading && (
             <div className="space-y-3">
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
               <Skeleton className="h-24 w-full" />
               <Skeleton className="h-24 w-full" />
               <Skeleton className="h-24 w-full" />
@@ -69,8 +69,7 @@ export const ThreadsListPage: FC = () => {
 
           {/* 検索UIの実装 */}
           <div className="space-y-4 mb-8">
-            {/* 検索とカテゴリー選択 */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex gap-4 sm:flex-row flex-col">
               <Input placeholder="スレッドを検索..." className="flex-1" />
               <div className="flex gap-2">
                 <Select defaultValue="all">
@@ -101,33 +100,31 @@ export const ThreadsListPage: FC = () => {
                 </Select>
               </div>
             </div>
-
-            {/* タグフィルター */}
             <div className="flex gap-2 flex-wrap">
               <Badge
                 variant="secondary"
                 className="cursor-pointer hover:bg-secondary/80"
               >
-                プログラミング
+                #プログラミング
               </Badge>
               <Badge
                 variant="secondary"
                 className="cursor-pointer hover:bg-secondary/80"
               >
-                React
+                #React
               </Badge>
               <Badge
                 variant="secondary"
                 className="cursor-pointer hover:bg-secondary/80"
               >
-                TypeScript
+                #TypeScript
               </Badge>
             </div>
           </div>
 
           {/* スレッド一覧の実装 */}
           <ul className="space-y-4">
-            {threads.map((thread) => (
+            {currentThreads.map((thread) => (
               <li key={thread.id}>
                 <Card className="hover:bg-accent/50 transition-colors py-0">
                   <Link to={`/threads/${thread.id}`} className="block">
@@ -179,6 +176,15 @@ export const ThreadsListPage: FC = () => {
               </li>
             ))}
           </ul>
+
+          {/* ページネーション */}
+          {!isLoading && !error && threads.length > 0 && (
+            <ThreadsPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
         </CardContent>
       </div>
     </div>
