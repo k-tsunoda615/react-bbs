@@ -147,7 +147,7 @@ export const ThreadsListPage: FC = () => {
               />
 
               {filteredThreads.length === 0 ? (
-                <Alert>
+                <Alert className="my-8">
                   <AlertDescription>
                     {threads.length === 0
                       ? "スレッドがありません"
@@ -157,7 +157,7 @@ export const ThreadsListPage: FC = () => {
               ) : (
                 <>
                   {/* スレッド一覧の実装 */}
-                  <ul className="space-y-4">
+                  <ul className="space-y-4 mb-8">
                     {currentThreads.map((thread) => (
                       <li key={thread.id}>
                         <Card className="hover:bg-accent/50 transition-colors py-0">
