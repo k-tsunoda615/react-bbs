@@ -119,10 +119,53 @@ export const ThreadsListPage: FC = () => {
         </CardHeader>
         <CardContent className="p-0">
           {isLoading && (
-            <div className="space-y-3">
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-24 w-full" />
+            <div className="space-y-4 mb-8">
+              {/* 検索UIのスケルトン */}
+              <div className="space-y-4 mb-8">
+                <div className="flex gap-4 sm:flex-row flex-col">
+                  <Skeleton className="h-10 flex-1" />
+                  <div className="flex gap-2">
+                    <Skeleton className="h-10 w-[150px]" />
+                    <Skeleton className="h-10 w-[150px]" />
+                  </div>
+                </div>
+                <div className="flex gap-2 flex-wrap">
+                  <Skeleton className="h-8 w-24 rounded-full" />
+                  <Skeleton className="h-8 w-16 rounded-full" />
+                  <Skeleton className="h-8 w-28 rounded-full" />
+                </div>
+              </div>
+
+              {/* スレッドカードのスケルトン */}
+              {[1, 2, 3].map((item) => (
+                <Card key={item} className="py-0">
+                  <div className="sm:flex sm:gap-4 p-4">
+                    {/* サムネイルのスケルトン */}
+                    <Skeleton className="w-full h-40 sm:w-24 sm:h-24 rounded-lg shrink-0 mb-4 sm:mb-0" />
+
+                    {/* コンテンツのスケルトン */}
+                    <div className="flex-1 space-y-2">
+                      {/* タイトルのスケルトン */}
+                      <Skeleton className="h-6 w-3/4" />
+
+                      {/* タグのスケルトン */}
+                      <div className="flex gap-2">
+                        <Skeleton className="h-6 w-24" />
+                        <Skeleton className="h-6 w-16" />
+                      </div>
+
+                      {/* 日付・アクションのスケルトン */}
+                      <div className="flex justify-between">
+                        <Skeleton className="h-4 w-20" />
+                        <div className="flex gap-3">
+                          <Skeleton className="h-4 w-12" />
+                          <Skeleton className="h-4 w-12" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
             </div>
           )}
 
