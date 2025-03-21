@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useActionState } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -115,14 +115,16 @@ export const ThreadsNewPage: FC = () => {
             </div>
 
             <div className="flex justify-end space-x-3 mt-8">
-              <Button
-                type="button"
-                onClick={handleCancel}
-                variant="outline"
-                className="px-4 py-2 rounded-md transition-all hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
-                キャンセル
-              </Button>
+              <Link to="/threads">
+                <Button
+                  type="button"
+                  onClick={handleCancel}
+                  variant="outline"
+                  className="px-4 py-2 rounded-md transition-all hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
+                  キャンセル
+                </Button>
+              </Link>
               <Button
                 type="submit"
                 disabled={isPending}
