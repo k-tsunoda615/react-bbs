@@ -23,7 +23,7 @@ export const ThreadsListPage: FC = () => {
   const [selectedSort, setSelectedSort] = useState("newest");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const threadsPerPage = 5;
+  const threadsPerPage = 5; // ページあたりのスレッド数
 
   // 検索、フィルタリング、ソートを適用
   useEffect(() => {
@@ -129,7 +129,7 @@ export const ThreadsListPage: FC = () => {
             <h1>
               <CardTitle className="text-2xl font-bold">スレッド一覧</CardTitle>
             </h1>
-            <Link to="/threads/create">
+            <Link to="/threads/new">
               <Button className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-2 font-bold">
                 <Plus className="h-4 w-4" />
                 新規スレッド作成
