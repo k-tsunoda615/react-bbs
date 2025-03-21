@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ThreadsListPage } from "./pages/ThreadsListPage/index";
+import { ThreadsNewPage } from "./pages/ThreadsNewPage/index";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import "./App.css";
 
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/threads" />} />
         <Route path="/threads" element={<ThreadsListPage />} />
+        <Route path="/threads/new" element={<ThreadsNewPage />} />
         {/* <Route path="/threads/:id" element={<ThreadDetailPage />} /> */}
       </Routes>
       <SpeedInsights />
