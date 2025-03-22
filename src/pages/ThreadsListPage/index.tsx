@@ -53,11 +53,13 @@ export const ThreadsListPage: FC = () => {
       switch (selectedSort) {
         case "newest":
           return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            new Date(b.createdAt || "").getTime() -
+            new Date(a.createdAt || "").getTime()
           );
         case "oldest":
           return (
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            new Date(a.createdAt || "").getTime() -
+            new Date(b.createdAt || "").getTime()
           );
         case "likes":
           return (b.likes || 0) - (a.likes || 0);
@@ -263,7 +265,7 @@ export const ThreadsListPage: FC = () => {
                                   <div className="flex items-center justify-between flex-wrap text-xs sm:text-sm text-muted-foreground">
                                     <time>
                                       {new Date(
-                                        thread.createdAt,
+                                        thread.createdAt || "",
                                       ).toLocaleDateString("ja-JP")}
                                     </time>
                                     <div className="flex items-center gap-3">
