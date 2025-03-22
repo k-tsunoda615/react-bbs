@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useActionState } from "react";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { createThread } from "./utils/createThreadApi";
-import { ThreadFormState } from "../../types/Thread";
+import { Button } from "@components/ui/button";
+import { Input } from "@components/ui/input";
+import { createThread } from "@pages/ThreadsNewPage/utils/createThreadApi";
+import { ThreadFormState } from "@types/Thread";
 
 export const ThreadsNewPage: FC = () => {
   //useNavigateフックを使用して、ページ間の移動を行うための関数を取得
