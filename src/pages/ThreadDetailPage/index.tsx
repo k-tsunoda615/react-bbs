@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useThreadPosts } from "./hoooks/useThreadPost";
 import {
   Card,
   CardContent,
@@ -14,21 +14,12 @@ import { ChevronLeft } from "lucide-react";
 export const ThreadDetailPage = () => {
   const { threadId } = useParams();
 
-  // モックデータ（後でAPIから取得するデータの形式に合わせています）
-  const [posts] = useState([
-    {
-      id: "1",
-      post: "これは最初の投稿です。",
-    },
-    {
-      id: "2",
-      post: "スレッドへの返信です。長いテキストの場合はこのように表示されます。長いテキストの場合はこのように表示されます。",
-    },
-    {
-      id: "3",
-      post: "質問があります。このスレッドについて詳しく教えてください。",
-    },
-  ]);
+  const { posts, loading, error, hasMore, loadMore } = useThreadPosts(
+    threadId as string,
+  );
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.ErrorMessageJP}</div>;
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -65,12 +56,19 @@ export const ThreadDetailPage = () => {
             ))}
           </div>
         )}
+        {hasMore && (
+          <div className="flex justify-center mt-6">
+            <Button variant="outline" onClick={loadMore}>
+              もっと見る
+            </Button>
+          </div>
+        )}
 
         <div className="flex justify-center mt-6">
           <Button variant="outline" asChild>
-            <Link to="/" className="flex items-center gap-2">
+            <Link to="/threads" className="flex items-center gap-2">
               <ChevronLeft className="h-4 w-4" />
-              トップページに戻る
+              スレッド一覧に戻る
             </Link>
           </Button>
         </div>
