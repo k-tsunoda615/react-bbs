@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { createThread } from "./utils/createThreadApi";
-import { ThreadFormState } from "./types/Thread";
+import { ThreadFormState } from "../../types/Thread";
 
 export const ThreadsNewPage: FC = () => {
   //useNavigateフックを使用して、ページ間の移動を行うための関数を取得

@@ -3,7 +3,7 @@
  * @param {string} title - スレッドのタイトル
  * @returns {Promise<Object>} - 作成されたスレッドの情報
  */
-import { Thread } from "../types/Thread";
+import { Thread } from "../../../types/Thread";
 
 export const createThread = async (title: string): Promise<Thread> => {
   try {
