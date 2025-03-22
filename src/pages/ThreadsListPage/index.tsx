@@ -13,7 +13,7 @@ import { Alert, AlertDescription } from "../../components/ui/alert";
 import { Skeleton } from "../../components/ui/skeleton";
 import { ThreadsPagination } from "./components/ThreadsPagenation";
 import { SearchFilters } from "./components/SearchFilters";
-import { Thread } from "./hooks/types";
+import { Thread } from "../../types/Thread";
 
 export const ThreadsListPage: FC = () => {
   const { threads, isLoading, error } = useFetchThreads();
