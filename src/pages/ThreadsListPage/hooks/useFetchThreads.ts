@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Thread, ApiError } from "./types";
+import { Thread, ApiError } from "@types/Thread";
 
 export const useFetchThreads = () => {
   const [threads, setThreads] = useState<Thread[]>([]);
