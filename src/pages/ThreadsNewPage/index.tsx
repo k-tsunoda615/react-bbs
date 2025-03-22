@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useActionState } from "react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { createThread } from "./utils/api";
+import { createThread } from "./utils/createThreadApi";
 import { ThreadFormState } from "./types/Thread";
 
 export const ThreadsNewPage: FC = () => {
