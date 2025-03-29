@@ -5,6 +5,7 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { createThread } from "./utils/createThreadApi";
 import { ThreadFormState } from "../../types/Thread";
+import { validateContentSafety } from "../../lib/validateContentSafety";
 
 export const ThreadsNewPage: FC = () => {
   //useNavigateフックを使用して、ページ間の移動を行うための関数を取得
@@ -23,6 +24,13 @@ export const ThreadsNewPage: FC = () => {
 
       if (!title || title.trim() === "") {
         return { success: false, error: "タイトルを入力してください" };
+      }
+
+      // 禁止ワードが含まれていないかチェック
+      const validation = validateContentSafety(title);
+
+      if (!validation.isValid) {
+        return { success: false, error: validation.errorMessage };
       }
 
       try {
