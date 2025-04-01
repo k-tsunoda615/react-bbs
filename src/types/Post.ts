@@ -20,4 +20,5 @@ export type UseThreadPostsResult = {
   error: ErrorResponse | null;
   hasMore: boolean;
   loadMore: () => void;
+  refreshPosts: () => Promise<void>;
 };
