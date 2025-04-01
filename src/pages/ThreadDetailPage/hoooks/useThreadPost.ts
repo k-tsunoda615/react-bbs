@@ -73,7 +73,7 @@ export const useThreadPosts = (threadId: string): UseThreadPostsResult => {
     try {
       // 最初のページを再取得
       const response = await fetch(
-        `https://railway.bulletinboard.techtrain.dev/api/threads/${threadId}/posts?page=1&limit=${limit}`,
+        `https://railway.bulletinboard.techtrain.dev/threads/${threadId}/posts?page=1&limit=${limit}`,
       );
       if (!response.ok) {
         throw await response.json();
