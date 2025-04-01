@@ -1,24 +1,66 @@
 import { useParams, Link } from "react-router-dom";
 import { useThreadPosts } from "./hoooks/useThreadPost";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  // CardHeader,
-  // CardTitle,
-} from "../../components/ui/card";
+import { useState } from "react";
+import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Separator } from "../../components/ui/separator";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Send } from "lucide-react";
+import { Textarea } from "../../components/ui/textarea";
 
 export const ThreadDetailPage = () => {
   const { threadId } = useParams();
+  const [newPost, setNewPost] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const { posts, loading, error, hasMore, loadMore } = useThreadPosts(
-    threadId as string,
-  );
+  const { posts, loading, error, hasMore, loadMore, refreshPosts } =
+    useThreadPosts(threadId as string);
 
-  if (loading) {
+  // 投稿を送信する関数
+  const handleSubmitPost = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!newPost.trim()) {
+      setSubmitError("投稿内容を入力してください");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch(
+        `https://railway.bulletinboard.techtrain.dev/threads/${threadId}/posts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ post: newPost }),
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.ErrorMessageJP || "投稿に失敗しました");
+      }
+
+      // 投稿成功
+      setNewPost("");
+
+      // 投稿一覧を更新
+      await refreshPosts();
+    } catch (error) {
+      console.error("投稿エラー:", error);
+      setSubmitError(
+        error instanceof Error ? error.message : "投稿中にエラーが発生しました",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (loading && posts.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] p-8">
         <div className="animate-spin h-12 w-12 mb-4">
@@ -142,11 +184,41 @@ export const ThreadDetailPage = () => {
         )}
         {hasMore && (
           <div className="flex justify-center mt-6">
-            <Button variant="outline" onClick={loadMore}>
-              もっと見る
+            <Button variant="outline" onClick={loadMore} disabled={loading}>
+              {loading ? "読み込み中..." : "もっと見る"}
             </Button>
           </div>
         )}
+
+        {/* 投稿フォーム */}
+        <Card className="mt-8">
+          <CardContent className="p-6">
+            <form onSubmit={handleSubmitPost} className="space-y-4">
+              <div className="space-y-2">
+                <Textarea
+                  placeholder="投稿内容を入力してください"
+                  value={newPost}
+                  onChange={(e) => setNewPost(e.target.value)}
+                  className="min-h-[120px] resize-y"
+                  disabled={isSubmitting}
+                />
+                {submitError && (
+                  <p className="text-sm text-red-500">{submitError}</p>
+                )}
+              </div>
+              <div className="flex justify-end">
+                <Button
+                  type="submit"
+                  disabled={isSubmitting || !newPost.trim()}
+                  className="flex items-center gap-2"
+                >
+                  {isSubmitting ? "送信中..." : "投稿する"}
+                  {!isSubmitting && <Send className="h-4 w-4" />}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
 
         <div className="flex justify-center mt-6">
           <Button variant="outline" asChild>
