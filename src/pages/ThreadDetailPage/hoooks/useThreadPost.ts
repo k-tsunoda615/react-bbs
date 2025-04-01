@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Post,
   ThreadPostsResponse,
@@ -12,6 +12,7 @@ export const useThreadPosts = (threadId: string): UseThreadPostsResult => {
   const [error, setError] = useState<ErrorResponse | null>(null);
   const [offset, setOffset] = useState<number>(0);
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const limit = 10; // 1ページあたりの投稿数を定義
 
   const fetchPosts = async (currentOffset: number) => {
     try {
@@ -67,7 +68,28 @@ export const useThreadPosts = (threadId: string): UseThreadPostsResult => {
     }
   };
 
-  return { posts, loading, error, hasMore, loadMore };
+  const refreshPosts = useCallback(async () => {
+    setLoading(true);
+    try {
+      // 最初のページを再取得
+      const response = await fetch(
+        `https://railway.bulletinboard.techtrain.dev/api/threads/${threadId}/posts?page=1&limit=${limit}`,
+      );
+      if (!response.ok) {
+        throw await response.json();
+      }
+      const data = await response.json();
+      setPosts(data.posts);
+      setHasMore(data.hasMore);
+      setOffset(0);
+    } catch (err) {
+      setError(err as ErrorResponse);
+    } finally {
+      setLoading(false);
+    }
+  }, [threadId, limit]);
+
+  return { posts, loading, error, hasMore, loadMore, refreshPosts };
 };
 
 export default useThreadPosts;
